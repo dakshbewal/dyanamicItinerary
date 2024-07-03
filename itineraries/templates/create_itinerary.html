@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Ensure responsive design -->
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <title>Create Itinerary</title>
+    <style>
+      /* Custom Styles */
+      body {
+        background-color: #f8f9fa;
+      }
+      .container {
+        margin-top: 1rem;
+      }
+      .header-container {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        background-color: #ffba08;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .header-container:hover {
+        background-color: #ffa500;
+      }
+      .header-container p {
+        margin: 0;
+        font-weight: bold;
+        color: #fff;
+      }
+      .popup-card {
+        display: none;
+        position: absolute;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #343a40;
+        color: #fff;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        z-index: 1;
+        white-space: nowrap;
+        transition: opacity 0.3s;
+        opacity: 0;
+      }
+      .header-container:hover .popup-card {
+        display: block;
+        opacity: 1;
+      }
+      .form-container {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 0.25rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+      }
+      .form-label {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="container-sm mt-5">
+      <h1 class="text-center mb-4">Create a New Itinerary</h1>
+      <div class="row justify-content-center">
+
+        <div class="container">
+          <div class="header-container">
+            <p id="quotatonSet">Hover to see IDs</p>
+            <div class="popup-card">
+              <p id="quotationIdPopup"></p>
+              <p id="leadIdPopup"></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 form-container">
+          <!-- Main form for itinerary creation -->
+          <form method="post" class="needs-validation" novalidate>
+            <input type="hidden" name="quotation_id" id="quotation_id" value="" />
+            <input type="hidden" name="lead_id" id="lead_id" value="" />
+            {% csrf_token %}
+
+            <div class="mb-3">
+              <label for="travel_destination" class="form-label"
+                >Travel Destination</label
+              >
+              <input
+                type="text"
+                id="travel_destination"
+                name="travel_destination"
+                class="form-control"
+                value="{% if itinerary %} {{ itinerary.travel_destination }} {% endif %}"
+                required
+              />
+              <div class="invalid-feedback">
+                Please enter a travel destination.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="duration" class="form-label">Duration</label>
+              <input
+                type="number"
+                id="duration"
+                name="duration"
+                class="form-control"
+                value="{% if itinerary %} {{ itinerary.duration }} {% endif %}"
+                required
+              />
+              <div class="invalid-feedback">
+                Please enter the duration in days.
+              </div>
+            </div>
+
+            <!-- Two submit buttons with distinct names -->
+            <button
+              type="submit"
+              class="btn btn-primary"
+              name="action"
+              value="create"
+            >
+              Create Itinerary
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {% if range_list %}
+    </div>
+    <div class="container-sm mt-5">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-6 form-container">
+          <h1 class="text-center">Create Itinerary Details</h1>
+          <form
+            method="post"
+            class="needs-validation"
+            novalidate
+          >
+            <input
+              type="hidden"
+              name="itinerary_id"
+              value="{{ itinerary.itinerary_id }}"
+            />
+            <input type="hidden" name="action" value="save_details" />
+            <input type="hidden" name="travel_destination" value="{{ travel_destination }}" />
+            <input type="hidden" name="quotation_id" id=quotation_id value="{{ quotation_id }}" />
+            <input type="hidden" name="duration" value="{{ duration }}" />
+            <input type="hidden" name="lead_id" id="lead_id" value="{{ lead_id }}" />
+
+            {% csrf_token %}
+            {% for i in range_list %}
+            <div class="mb-3" style="margin-top:3rem;">
+              <label for="day_number_{{ i }}" class="form-label"
+                >Day {{ i }}</label
+              >
+              <input
+                type="hidden"
+                id="day_number_{{ i }}"
+                name="day_number_{{ i }}"
+                class="form-control"
+                value="{{ i }}"
+                required
+              />
+              <br>
+
+              <label for="title_{{ i }}" class="form-label mt-2">Title:</label>
+              <input
+                id="title_{{ i }}"
+                name="title_{{ i }}"
+                class="form-control"
+                required
+                placeholder="Title for day {{ i }}"
+              />
+
+              <label for="activity_description_{{ i }}" class="form-label mt-2"
+                >Activity Description:</label
+              >
+              <textarea
+                id="activity_description_{{ i }}"
+                name="activity_description_{{ i }}"
+                class="form-control"
+                required
+                placeholder="Describe the activities for day {{ i }}"
+              ></textarea>
+            </div>
+            {% endfor %}
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              name="action"
+              value="save_details"
+            >
+              Add Itinerary Details
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-fZrnU1A89kffngzL7i2smo6Kt/fZ0PPoVeq4R3BzTBPbAoKS7S12klU7qIRoRX5X"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cjZj7gqE0BX0yHWVrCTF1hSA16Ohgo+jQVdJ3kH2nPTZRUyxKCpwx2lQthEHGbF"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Script for Bootstrap form validation -->
+    <script>
+      // Function to set quotation_id value in the hidden input field
+      function setQuotationId() {
+        // Get quotation_id from URL
+        var urlParams = new URLSearchParams(window.location.hash.substr(1));
+        var quotation_id = urlParams.get('quotation_id');
+        var leadId = urlParams.get('lead_id');
+
+        // Set quotation_id value in the hidden input field
+        document.getElementById("quotation_id").value = quotation_id;
+        document.getElementById("lead_id").value = leadId;
+
+        // Set the popup card text
+        document.getElementById("quotationIdPopup").innerText = `Quotation ID: ${quotation_id}`;
+        document.getElementById("leadIdPopup").innerText = `Lead ID: ${leadId}`;
+      }
+
+      // Call setQuotationId function when the page loads
+      window.onload = function() {
+        setQuotationId();
+      };
+
+
+      (function () {
+        "use strict";
+        var forms = document.querySelectorAll(".needs-validation");
+        Array.prototype.slice.call(forms).forEach(function (form) {
+          form.addEventListener(
+            "submit",
+            function (event) {
+              if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add("was-validated");
+            },
+            false
+          );
+        });
+      })();
+    </script>
+  </body>
+</html>

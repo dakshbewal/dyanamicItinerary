@@ -1,0 +1,119 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+header {
+    background-color: #FFCF53;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+main {
+    overflow-x: auto;
+    padding: 2rem 1rem;
+    height: 100vh;
+}
+
+.timeline {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 200px; /* Adjust height as needed */
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #FFBA08;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.timeline-container {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.timeline-item {
+    
+    align-items: center;
+    position: relative;
+    margin: 40px 0; /* Increase space between each timeline content */
+    z-index: 2;
+    width: 200px; /* Set width for both top and bottom timeline items */
+}
+
+.timeline-dot {
+    width: 16px;
+    height: 16px;
+    background: #FFBA08;
+    border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: 0 0 0 4px #FFBA08;
+    z-index: 3;
+    margin-right: 20px; /* Space between timeline dot and content */
+    margin-left: 95px;
+}
+
+.timeline-content {
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 10rem; /* Adjust width as needed */
+    text-align: center;
+    position: absolute;
+    left: calc(50% - 75px); /* Center the timeline content */
+    z-index: -1;
+    
+}
+
+.timeline-item.top .timeline-content {
+    top: -140%; /* Position top items above the line */
+}
+
+.timeline-item.bottom .timeline-content {
+    bottom: -140%; /* Position bottom items below the line */
+}
+
+.timeline-content h2 {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #dca009;
+    margin-bottom: 1rem;
+}
+
+.timeline-content p {
+    margin: 0.5rem 0;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #f1f1f1;
+    margin-top: 2rem;
+}
+
+footer p {
+    margin: 0;
+    color: #777;
+}

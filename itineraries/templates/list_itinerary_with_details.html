@@ -1,0 +1,27 @@
+<!-- templates/itineraries/list_itineraries_with_details.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>List of Itineraries</title>
+  </head>
+  <body>
+    <h1>All Itineraries</h1>
+    <ul>
+      {% for itinerary in itineraries %}
+      <li>
+        {{ itinerary }}
+        <!-- Display the master itinerary -->
+        <ul>
+          {% for detail in itinerary.itinerarydetails_set.all %}
+          <!-- Fetch related details -->
+          <li>
+            Day {{ detail.day_number }}: {{ detail.activity_description }}
+          </li>
+
+          {% endfor %}
+        </ul>
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

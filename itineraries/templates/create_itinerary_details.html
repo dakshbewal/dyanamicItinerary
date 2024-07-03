@@ -1,0 +1,65 @@
+<!-- templates/itineraries/create_itinerary_details.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <title>Create Itinerary Details</title>
+  </head>
+  <body
+    class="d-flex justify-content-center align-items-center"
+    style="height: 100vh; background-color: #f8f9fa"
+  >
+    <div class="container-sm">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-6 py-5">
+          <h1 class="text-center">Create Itinerary Details</h1>
+          <form method="post" class="border p-4 bg-white rounded">
+            {% csrf_token %} {% for i in range_list %}
+            <div class="mb-3">
+              <!-- Day Number -->
+              <label for="day_number_{{ i }}" class="form-label"
+                >Day {{ i }}:</label
+              >
+              <input
+                type="number"
+                id="day_number_{{ i }}"
+                name="day_number_{{ i }}"
+                class="form-control"
+                required
+                value="{{ i }}"
+              />
+
+              <!-- Activity Description -->
+              <label for="activity_description_{{ i }}" class="form-label"
+                >Activity Description:</label
+              >
+              <textarea
+                id="activity_description_{{ i }}"
+                name="activity_description_{{ i }}"
+                class="form-control"
+                required
+                placeholder="Describe the activities for day {{ i }}"
+              ></textarea>
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary w-100">
+              Add Itinerary Details
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-c/3Fdq0u63e2/xBXZrS4ltZYEBfi/W9T6m9mG2BXO/NrGz4JX2FbwweFP2eKao78"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Search Itineraries</title>
+</head>
+<body>
+    <div class="container mt-5 position-relative">
+        
+        <!-- Search form with Bootstrap classes -->
+        <form id = "searchForm" action="/search" method="POST" class="position-absolute top-0 end-0">
+            {% csrf_token %}
+            <div class="input-group input-group-m">
+                <input type="text" id="searchInput" name="query" value="" class="form-control" placeholder="Search...">
+                <button type="submit" id="searchButton" onclick="storeQueryInLocalStorage()" class="btn btn-primary btn-sm">Search</button>
+            </div>
+        </form>
+
+        <h1 class="text-center mb-4">Searched Itineraries</h1>
+        <!-- Table for displaying searched itineraries -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Itinerary</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for itinerary in itineraries %}
+                <tr>
+                    <td>{{ itinerary.travel_destination }} ({{ itinerary.duration }} days)</td>
+                    <td>
+                        <a href="{% url 'create_or_edit_itinerary' itinerary.itinerary_id %}" class="btn btn-outline-primary btn-sm me-2">Edit</a>
+                        <a href="{% url 'itinerary_with_details' itinerary.itinerary_id %}" class="btn btn-outline-info btn-sm me-2">Update Details</a>
+                        <a href="{% url 'delete_itinerary' itinerary.itinerary_id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+ 
+        // Check if there's a hash fragment in the URL
+        if (window.location.hash) {
+            // Get search query from URL hash
+            var urlParams = new URLSearchParams(window.location.hash.substr(1));
+            var searchQuery = urlParams.get('search');
+
+            // Check if searchQuery is not null or empty
+            if (searchQuery) {
+                // Set the search query in the search input field
+                document.getElementById("searchInput").value = searchQuery;
+                // Trigger the search button click
+                document.getElementById("searchButton").click();
+            }
+        }
+    // Function to store the query parameter in local storage
+    function storeQueryInLocalStorage() {
+        // Get the value of the search input field
+        var query = document.getElementById('searchInput').value;
+
+        // Store the query in local storage
+        localStorage.setItem('query', query);
+    }
+
+    
+</script>
+    
+</body>
+</html>

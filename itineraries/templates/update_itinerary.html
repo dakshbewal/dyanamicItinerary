@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <title>Update Itinerary</title>
+  </head>
+  <body class="bg-light">
+    <!-- Light background for a cleaner look -->
+    <div class="container mt-5">
+      <!-- Consistent spacing with Bootstrap -->
+      <h1 class="text-center mb-4">Update Itinerary</h1>
+      <!-- Centered heading with bottom margin -->
+
+      <form method="post" class="needs-validation" novalidate>
+        <!-- Bootstrap form validation -->
+        {% csrf_token %}
+        <!-- CSRF protection -->
+
+        <div class="mb-3">
+          <!-- Consistent spacing -->
+          <label for="travel_destination" class="form-label"
+            >Travel Destination:</label
+          >
+          <input
+            type="text"
+            id="travel_destination"
+            name="travel_destination"
+            value="{{ itinerary.travel_destination }}"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Please enter a travel destination.</div>
+          <!-- Validation feedback -->
+        </div>
+
+        {% comment %} <div class="mb-3">
+          <!-- Margin-bottom for consistent spacing -->
+          <label for="created_by" class="form-label">Created By:</label>
+          <input
+            type="text"
+            id="created_by"
+            name="created_by"
+            value="{{ itinerary.created_by }}"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Please enter the creator's name.</div>
+          <!-- Validation feedback -->
+        </div> {% endcomment %}
+
+        {% comment %} <div class="mb-3">
+          <!-- Margin-bottom for consistent spacing -->
+          <label for="created_at" class="form-label">Created At:</label>
+          <input
+            type="datetime-local"
+            id="created_at"
+            name="created_at"
+            value="{{ itinerary.created_at|date:'Y-m-d\TH:i:s' }}"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">
+            Please enter a valid date and time.
+          </div> {% endcomment %}
+          <div class="mb-3">
+            <!-- Margin-bottom for consistent spacing -->
+            <label for="duration" class="form-label">Duration:</label>
+            <input
+              type="text"
+              id="duration"
+              name="duration"
+              value="{{ itinerary.duration }}"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">
+              Please enter a valid duration.
+            </div>
+          <!-- Validation feedback -->
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Itinerary</button>
+        <!-- Bootstrap styled button -->
+      </form>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-LMNBlZRm5hBMR5P9u8Hzlu89U5mbQYmN4hfHD5ZK9tpih3zVexKpYAxBLK5Jj9Sm"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cjZj7gqE0BX0yHWVrCTF1hSA16Ohgo+jQVdJ3kH2nPTZRUyxKCpwx2lQthEHGbF"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Script for Bootstrap form validation -->
+    <script>
+      (function () {
+        "use strict";
+        var forms = document.querySelectorAll(".needs-validation");
+        Array.prototype.slice.call(forms).forEach(function (form) {
+          form.addEventListener(
+            "submit",
+            function (event) {
+              if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add("was-validated");
+            },
+            false
+          );
+        });
+      })();
+    </script>
+  </body>
+</html>
